@@ -1,8 +1,11 @@
-import { IsIn, IsInt, isNotEmpty, IsNotEmpty, isString, IsString, Min } from "class-validator";
+import { IsInt, IsNotEmpty, IsString, Min, Validate } from "class-validator";
+import { Unique } from "typeorm";
+import { AtletaEntity } from "../atleta.entity";
 
 export class PostAtletaDTO {
   @IsNotEmpty()
   @IsInt()
+  @Unique(['dni'])
   dni: number;
 
   @IsNotEmpty()

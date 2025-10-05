@@ -11,12 +11,61 @@
     ciudadid: ''
   })
 
+  let ErrorNombre = ref('')
+  let ErrorTiempo = ref('')
+  let ErrorDni = ref('')
+  let ErrorPosicion = ref('')
+  let EnvioExitoso = ref('')
+
+
   const ciudades = ref([])
 
   const EnviarDatos = async () => {
     try {
+          if (
+      datosAtletas.value.nombre == '' ||
+      datosAtletas.value.nombre.length < 3 ||
+      datosAtletas.value.nombre.length > 250
+    ) {
+      ErrorNombre.value =
+        'Nombre Invalido'
+    } else {
+      ErrorNombre.value = ''
+    }
+
+    if (datosAtletas.value.dni < 0 || datosAtletas.value.dni == '') {
+      ErrorDni.value = 'DNI Invalido'
+    } else {
+      ErrorDni.value = ''
+    }
+
+    if (datosAtletas.value.tiempo == '') {
+      ErrorTiempo.value =
+        'Tiempo Invalido'
+    } else {
+      ErrorTiempo.value = ''
+    }
+
+    if (datosAtletas.value.posicion < 0 || datosAtletas.value.posicion == '') {
+      ErrorPosicion.value = 'Posicion Invalida'
+
+    } else {
+      ErrorPosicion.value = ''
+    }
+
       const response = await axios.post('http://localhost:3000/api/atletas', datosAtletas.value)
       console.log('Datos enviados:', response.data)
+      if (response.status == 201) {
+      datosAtletas.value = {
+        nombre: '',
+        dni: '',
+        tiempo: '',
+        posicion: '',
+      }
+          EnvioExitoso.value = 'Envio de Datos Exitoso'
+    } else {
+      EnvioExitoso.value = ''
+    }
     } catch (error) {
       console.error('Error al enviar datos:', error)
     }
@@ -51,6 +100,7 @@
                     id="nombre"
                     placeholder="Nombre"
                     v-model="datosAtletas.nombre">
+                    <p>{{ ErrorNombre }}</p>
                 </div>
 
                 <div class="form-group">
@@ -60,6 +110,7 @@
                     id="dni"
                     placeholder="DNI"
                     v-model="datosAtletas.dni">
+                    <p>{{ ErrorDni }}</p>
                 </div>
 
                 <div class="form-group">
@@ -69,6 +120,7 @@
                     id="posicion"
                     placeholder="Posicion"
                     v-model="datosAtletas.posicion">
+                    <p>{{ ErrorPosicion }}</p>
                 </div>
 
                 <div class="form-group">
@@ -79,6 +131,7 @@
                         id="horas"
                         placeholder="00h 00m 00s"
                         v-model="datosAtletas.tiempo">
+                        <p>{{ ErrorTiempo }}</p>
                     </div>
                 </div>
 

@@ -9,9 +9,19 @@ const router = createRouter({
       component: () => import('../views/AtletaForm.vue'),
     },
     {
+      path: '/atletalist',
+      name: 'AtletaList',
+      component: () => import('../views/AtletaList.vue')
+    },
+    {
       path: '/ciudadform',
       name: 'CiudadForm',
       component: () => import('../views/CiudadForm.vue'),
+    },
+    {
+      path: '/ciudadlist',
+      name:'CiudadList',
+      component: () => import('../views/CiudadList.vue'),
     },
   ],
 })
